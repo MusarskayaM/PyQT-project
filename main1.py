@@ -1,5 +1,13 @@
-
+# ©Maria Musarskaya, 2024
 import sqlite3
+import sys
+import sqlite3
+from random import choice
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, qApp, QMessageBox
+from PyQt5.QtWidgets import QDialog, QLineEdit, QComboBox
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import Qt
+
 
 # Подключение к базе данных
 conn = sqlite3.connect('database.db')  # Замените 'database.db' на имя вашей базы данных
@@ -14,16 +22,6 @@ cur.execute('''
     )
 ''')
 conn.commit()
-
-# ©Maria Musarskaya, 2024
-
-import sys
-import sqlite3
-from random import choice
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, qApp, QMessageBox
-from PyQt5.QtWidgets import QDialog, QLineEdit, QComboBox
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import Qt
 
 
 class AuthorisationWidget(QMainWindow):
