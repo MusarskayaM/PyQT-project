@@ -17,7 +17,7 @@ pip --version
 1. Склонируйте репозиторий:
 ```bash
 git clone https://github.com/MusarskayaM/PyQT-project.git
-cd Polylingua
+cd PyQT-project
 ```
 
 2. Создайте виртуальное окружение:
