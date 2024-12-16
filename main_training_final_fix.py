@@ -544,13 +544,7 @@ class TrainWidget(QDialog):
         WHERE counter = {self.minim}
 """).fetchall()
         result = [str(x[0]) for x in result]
-        
-    result = cur.execute("SELECT word FROM dict").fetchall()
-    if not result:
-        QMessageBox.critical(self, "Ошибка", "Словарь пуст. Пожалуйста, добавьте слова для тренировки.")
-    else:
-        self.word.setText(f'{random.choice([row[0] for row in result])}')
-    
+        self.word.setText(f'{choice(result)}')
         con.commit()
         con.close()
 
