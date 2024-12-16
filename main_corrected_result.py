@@ -1,16 +1,19 @@
 
 import sqlite3
+import random
+from PyQt5.QtWidgets import QMessageBox
 
 # Подключение к базе данных
-conn = sqlite3.connect('database.db')  # Замените 'database.db' на имя вашей базы данных
+conn = sqlite3.connect('DataM.sqlite')  # Указываем корректное имя базы данных
 cur = conn.cursor()
 
 # Проверка существования таблицы и её создание при отсутствии
 cur.execute('''
     CREATE TABLE IF NOT EXISTS dict (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        foreign_word TEXT NOT NULL,
-        translation TEXT NOT NULL
+        word TEXT NOT NULL,
+        translation TEXT NOT NULL,
+        counter TEXT NOT NULL
     )
 ''')
 conn.commit()
@@ -541,7 +544,13 @@ class TrainWidget(QDialog):
         WHERE counter = {self.minim}
 """).fetchall()
         result = [str(x[0]) for x in result]
-        self.word.setText(f'{choice(result)}')
+        
+    result = cur.execute("SELECT word FROM dict").fetchall()
+    if not result:
+        QMessageBox.critical(self, "Ошибка", "Словарь пуст. Пожалуйста, добавьте слова для тренировки.")
+    else:
+        self.word.setText(f'{random.choice([row[0] for row in result])}')
+    
         con.commit()
         con.close()
 
