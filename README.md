@@ -39,7 +39,7 @@ pip install -r requirements.txt
 
 Для запуска используйте следующую команду:
 ```bash
-python main.py
+python main1.py
 ```
 
 ### Описание приложения
