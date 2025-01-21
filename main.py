@@ -1,25 +1,5 @@
-
-import sqlite3
-import random
-from PyQt5.QtWidgets import QMessageBox
-
-# Подключение к базе данных
-conn = sqlite3.connect('DataM.sqlite')  # Указываем корректное имя базы данных
-cur = conn.cursor()
-
-# Проверка существования таблицы и её создание при отсутствии
-cur.execute('''
-    CREATE TABLE IF NOT EXISTS dict (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        word TEXT NOT NULL,
-        translation TEXT NOT NULL,
-        counter TEXT NOT NULL
-    )
-''')
-conn.commit()
-
 # ©Maria Musarskaya, 2024
-
+import sqlite3
 import sys
 import sqlite3
 from random import choice
@@ -27,6 +7,21 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, qApp
 from PyQt5.QtWidgets import QDialog, QLineEdit, QComboBox
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
+
+
+# Подключение к базе данных
+conn = sqlite3.connect('database.db')  # Замените 'database.db' на имя вашей базы данных
+cur = conn.cursor()
+
+# Проверка существования таблицы и её создание при отсутствии
+cur.execute('''
+    CREATE TABLE IF NOT EXISTS dict (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        foreign_word TEXT NOT NULL,
+        translation TEXT NOT NULL
+    )
+''')
+conn.commit()
 
 
 class AuthorisationWidget(QMainWindow):
@@ -544,15 +539,7 @@ class TrainWidget(QDialog):
         WHERE counter = {self.minim}
 """).fetchall()
         result = [str(x[0]) for x in result]
-        
-    result = cur.execute("SELECT word FROM dict").fetchall()
-    if not result:
-        QMessageBox.critical(self, "Ошибка", "Словарь пуст. Пожалуйста, добавьте слова для тренировки.")
-        return  # Останавливаем выполнение метода, если словарь пуст
-    word_list = [row[0] for row in result]
-    selected_word = random.choice(word_list)
-    self.word.setText(selected_word)
-    
+        self.word.setText(f'{choice(result)}')
         con.commit()
         con.close()
 
